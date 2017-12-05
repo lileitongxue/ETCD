@@ -1,0 +1,13 @@
+{
+    "customize":{
+        "nodes":{
+            "default":1,"max":5,"price":100000000,"unit":"nodes","step":1,"desc":"Redis 集群node数量"
+        },
+        "memory":{
+            "default":100,"max":2000,"price":10000000,"unit":"Mi","step":10,"desc":"Redis 集群节点内存设置"
+        },
+        "volumeSize":{
+            "default":1,"max":10,"price":10000000,"unit":"GB","step":1,"desc":"Redis挂卷大小设置"
+        }
+    }
+}
