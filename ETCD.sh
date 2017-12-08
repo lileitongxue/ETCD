@@ -7,7 +7,7 @@ API_PASSWORD=2016citic
 
 #获取执行方法的参数 执行相应的方法体
 command=$@
-use_command="you can use command: sh `basename $0`  one or more  parameter from Init,Neo4j,Spark,RabbitMQ,Redis,Kafka,Cassandra,Storm,NiFi,Kettle,PySpider,MongoDB,Elasticsearch,ALL"
+use_command="you can use command: sh `basename $0`  one or more  parameter from Init,Cassandra,Elasticsearch,Kafka,Kettle,MongoDB,Neo4j,NiFi,PySpider,RabbitMQ,Redis,Spark,Storm,TensorlFlow,Zookeeper,ALL"
 
 function Init(){
 #创建service-broker容器化需要的文件
@@ -160,15 +160,20 @@ $ETCDCTL mkdir /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D
 $ETCDCTL mkdir /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/46ED475B-82A7-4C46-9767-0E3E806848F5
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/46ED475B-82A7-4C46-9767-0E3E806848F5/name "standalone"
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/46ED475B-82A7-4C46-9767-0E3E806848F5/description "HA Redis on Openshift"
-$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/46ED475B-82A7-4C46-9767-0E3E806848F5/metadata '{"bullets":["20 GB of Disk","20 connections"],"displayName":"Shared and Free" }'
+$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/46ED475B-82A7-4C46-9767-0E3E806848F5/metadata '{"bullets":["1 GB of Disk","20 connections"],"displayName":"Shared and Free" }'
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/46ED475B-82A7-4C46-9767-0E3E806848F5/free true
 ###创建套餐2 (pvc)
 $ETCDCTL mkdir /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f8554827-4f67-4082-84af-6d35475c1ea8
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f8554827-4f67-4082-84af-6d35475c1ea8/name "volumes_standalone"
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f8554827-4f67-4082-84af-6d35475c1ea8/description "HA Redis With Volumes on Openshift"
-$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f8554827-4f67-4082-84af-6d35475c1ea8/metadata '{"bullets":["20 GB of Disk","20 connections"],"displayName":"Shared and Free" }'
+$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f8554827-4f67-4082-84af-6d35475c1ea8/metadata '{"bullets":["1 GB of Disk","20 connections"],"displayName":"Shared and Free" }'
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f8554827-4f67-4082-84af-6d35475c1ea8/free true
-### 创建套餐3
+###创建套餐3 (single master pvc)
+$ETCDCTL mkdir /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f0d2e7b8-824e-11e7-8995-d3dba46d9a21
+$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f0d2e7b8-824e-11e7-8995-d3dba46d9a21/name "volumes_single"
+$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f0d2e7b8-824e-11e7-8995-d3dba46d9a21/description "Single Redis Master Server With Volumes on Openshift"
+$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f0d2e7b8-824e-11e7-8995-d3dba46d9a21/metadata '{"bullets":["1 GB of Disk","20 connections"],"displayName":"Shared and Free" }'
+$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f0d2e7b8-824e-11e7-8995-d3dba46d9a21/free true
 
 #读取json文件
 jsonword=""
@@ -176,7 +181,7 @@ for i in `sed '1d;$d' Redis.json`
 do
   jsonword=$jsonword$i
 done
-metadatavalue='{"bullets":["20 GB of Disk","20 connections"],"displayName":"Shared and Free",'"$jsonword}"
+metadatavalue='{"bullets":["1 GB of Disk","20 connections"],"displayName":"Shared and Free",'"$jsonword}"
 echo $metadatavalue
 ###创建套餐4 (4.0+ cluster)
 $ETCDCTL mkdir /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb
@@ -349,7 +354,7 @@ $ETCDCTL set /servicebroker/openshift/catalog/c6ed3cb8-d486-4faa-8185-7262183a11
 
 }
 
-function MongDB(){
+function MongoDB(){
 ###创建服务 MongoDB
 $ETCDCTL mkdir /servicebroker/openshift/catalog/eac6c8cf-2a63-4120-9e29-30c4b716e37f #服务id
 
@@ -434,7 +439,7 @@ do
         declare -F | cut -d ' ' -f 3 | while read line
         do
            if [ "$line"x  !=  "Init"x ];then
-              $line
+             echo $line
            fi      
         done
         ;;
