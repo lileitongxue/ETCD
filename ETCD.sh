@@ -176,20 +176,25 @@ $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/f0d2e7b8-824e-11e7-8995-d3dba46d9a21/free true
 
 #读取json文件
-jsonword=""
-for i in `sed '1d;$d' Redis.json`
-do
-  jsonword=$jsonword$i
-done
-metadatavalue='{"bullets":["1 GB of Disk","20 connections"],"displayName":"Shared and Free",'"$jsonword}"
-echo $metadatavalue
 ###创建套餐4 (4.0+ cluster)
 $ETCDCTL mkdir /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb/name "volumes_cluster"
 $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb/description "Redis Cluster With Volumes on Openshift"
-$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb/metadata "$metadatavalue"
-$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb/free true
 
+myFile="./Redis.json"
+if [ ! -f "$myFile" ];then
+  defaultmetadatavalue='{"bullets":["1 GB of Disk","20 connections"],"displayName":"Shared and Free" }'
+  $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb/metadata "$defaultmetadatavalue"  
+else
+  jsonword=""
+  for i in `sed '1d;$d' Redis.json`
+  do
+    jsonword=$jsonword$i
+  done
+  metadatavalue='{"bullets":["1 GB of Disk","20 connections"],"displayName":"Shared and Free",'"$jsonword }"
+  $ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb/metadata "$metadatavalue"
+fi 
+$ETCDCTL set /servicebroker/openshift/catalog/A54BC117-25E3-4E41-B8F7-14FC314D04D3/plan/94bcf092-74e7-49b1-add6-314fb2c7bdfb/free true
 
 }
 
