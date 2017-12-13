@@ -444,7 +444,7 @@ do
         declare -F | cut -d ' ' -f 3 | while read line
         do
            if [ "$line"x  !=  "Init"x ];then
-             echo $line
+              $line
            fi      
         done
         ;;
