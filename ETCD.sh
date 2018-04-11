@@ -259,12 +259,18 @@ $ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD5
 ###创建套餐目录
 $ETCDCTL mkdir /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan
 ###创建套餐1
-$ETCDCTL mkdir /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF
-$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF/name "standalone"
-$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF/description "HA Storm on Openshift"
-$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF/metadata '{"bullets":["20 GB of Disk","20 connections"],"displayName":"Shared and Free" }'
-$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF/free true
+#$ETCDCTL mkdir /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF
+#$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF/name "standalone"
+#$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF/description "HA Storm on Openshift"
+#$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF/metadata '{"bullets":["20 GB of Disk","20 connections"],"displayName":"Shared and Free" }'
+#$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/D0B82741-770A-463C-818F-6E99862367DF/free true
 
+###创建套餐2 external_standalone
+$ETCDCTL mkdir /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/ef12ed9a-87f5-11e7-b949-0fc03853e5ec
+$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/ef12ed9a-87f5-11e7-b949-0fc03853e5ec/name "external_standalone"
+$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/ef12ed9a-87f5-11e7-b949-0fc03853e5ec/description "HA Storm on Openshift exposed to external"
+$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/ef12ed9a-87f5-11e7-b949-0fc03853e5ec/metadata '{"bullets":["1 GB of Disk","20 connections"],"displayName":"Shared and Free","customize":{"supervisors":{"default":2,"max":10,"price":100000000,"unit":"个","step":1,"desc":"Storm集群supervisor数量"},"memory":{"default":0.5,"max":32,"price":10000000,"unit":"GB","step":0.1,"desc":"Storm集群supervisor节点内存设置"},"workers":{"default":4,"max":30,"price":10000000,"unit":"个","step":1,"desc":"每个supervisor上的worker数量"}} }'
+$ETCDCTL set /servicebroker/openshift/catalog/6555DBC1-E6BC-4F0D-8948-E1B5DF6BD596/plan/ef12ed9a-87f5-11e7-b949-0fc03853e5ec/free true
 }
 
 function NiFi(){
